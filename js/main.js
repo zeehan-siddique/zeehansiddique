@@ -85,8 +85,13 @@ const loadDynamicContent = async () => {
                 if (contactText) {
                     contactText.innerHTML = `Chittagong, Bangladesh<br>Phone: ${content.phone || ''}<br>Email: ${content.email || ''}`;
                 }
-                const link = document.querySelector('.contact .btn-primary');
-                if (link) link.href = `mailto:${content.email}`;
+                const waBtn = document.querySelector('.contact-btn-wa');
+                if (waBtn && content.phone) {
+                    const cleanPhone = content.phone.replace(/\D/g, '');
+                    waBtn.href = `https://wa.me/${cleanPhone}`;
+                }
+                const mailBtn = document.querySelector('.contact-btn-mail');
+                if (mailBtn && content.email) mailBtn.href = `mailto:${content.email}`;
                 const li = document.querySelector('.social-links a');
                 if (li) li.href = content.linkedin || '#';
             }
