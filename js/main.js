@@ -17,6 +17,7 @@ const loadDynamicContent = async () => {
             const content = typeof item.content === 'string' ? JSON.parse(item.content) : item.content;
 
             if (item.section_name === 'hero') {
+                if (content.name) document.querySelector('.hero .headline').innerText = content.name;
                 if (content.subtitle) document.querySelector('.hero .subtitle').innerText = content.subtitle;
                 if (content.description) document.querySelector('.hero .description').innerText = content.description;
                 if (content.profile_url) document.querySelector('.profile-pic').src = content.profile_url;
