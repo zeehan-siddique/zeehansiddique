@@ -70,8 +70,9 @@
             <input type="text" id="hero-subtitle" placeholder="I build things for the web.">
             <label style="margin-top: 1rem;">Description</label>
             <textarea id="hero-desc" rows="3"></textarea>
-            <button onclick="updateContent('hero')" class="btn btn-primary" style="margin-top: 1rem;">Save
-                Changes</button>
+            <label style="margin-top: 1rem;">Image URL</label>
+            <input type="text" id="hero-image" placeholder="Image URL (direct link)" style="margin-top: 1rem;">
+            <button onclick="updateHero()" class="btn btn-primary" style="margin-top: 1rem;">Save Hero Content</button>
         </section>
 
         <section class="form-group">
@@ -79,6 +80,7 @@
             <input type="text" id="proj-title" placeholder="Project Title">
             <textarea id="proj-desc" placeholder="Project Description" style="margin-top: 1rem;"></textarea>
             <input type="text" id="proj-tech" placeholder="Tech Stack (comma separated)" style="margin-top: 1rem;">
+            <input type="text" id="proj-image" placeholder="Image URL (direct link)" style="margin-top: 1rem;">
             <button onclick="addProject()" class="btn btn-primary" style="margin-top: 1rem;">Add Project</button>
         </section>
     </div>
@@ -99,27 +101,69 @@
             if (session) showAdmin();
         }
 
-        function showAdmin() {
+        async function showAdmin() {
             loginScreen.classList.add('hidden');
             adminPanel.classList.remove('hidden');
+            loadExistingContent();
+        }
+
+        async function loadExistingContent() {
+            // Load Hero Content
+            const { data: heroData } = await supabaseClient
+                .from('portfolio_content')
+                .select('*')
+                .eq('section_name', 'hero')
+                .single();
+
+            if (heroData) {
+                document.getElementById('hero-subtitle').value = JSON.parse(heroData.content).subtitle;
+                document.getElementById('hero-desc').value = JSON.parse(heroData.content).description;
+            }
         }
 
         document.getElementById('login-btn').onclick = async () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) alert(error.message);
             else showAdmin();
         };
 
         document.getElementById('logout-btn').onclick = async () => {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             window.location.reload();
         };
 
-        // Add mock logic for updates here
-        async function updateContent(section) {
-            alert('Connected to Supabase! Logic for update would go here.');
+        async function updateHero() {
+            const subtitle = document.getElementById('hero-subtitle').value;
+            const description = document.getElementById('hero-desc').value;
+            const content = JSON.stringify({ subtitle, description });
+
+            const { error } = await supabaseClient
+                .from('portfolio_content')
+                .upsert({ section_name: 'hero', content }, { onConflict: 'section_name' });
+
+            if (error) alert('Error: ' + error.message);
+            else alert('Hero section updated successfully!');
+        }
+
+        async function addProject() {
+            const title = document.getElementById('proj-title').value;
+            const description = document.getElementById('proj-desc').value;
+            const tech = document.getElementById('proj-tech').value.split(',').map(s => s.trim());
+            const image_url = document.getElementById('proj-image').value;
+
+            const { error } = await supabaseClient
+                .from('projects')
+                .insert([{ title, description, tech_stack: tech, image_url }]);
+
+            if (error) alert('Error: ' + error.message);
+            else {
+                alert('Project added successfully!');
+                document.querySelectorAll('#admin-panel input, #admin-panel textarea').forEach(i => {
+                    if (!i.id.includes('hero')) i.value = '';
+                });
+            }
         }
 
         checkUser();
