@@ -10,6 +10,20 @@ if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
 }
 
 const loadDynamicContent = async () => {
+    // 1. Load Hero Content
+    const { data: heroData } = await supabase
+        .from('portfolio_content')
+        .select('*')
+        .eq('section_name', 'hero')
+        .single();
+
+    if (heroData) {
+        const content = JSON.parse(heroData.content);
+        if (content.subtitle) document.querySelector('.hero .subtitle').innerText = content.subtitle;
+        if (content.description) document.querySelector('.hero .description').innerText = content.description;
+    }
+
+    // 2. Load Projects
     const { data: projects, error } = await supabase
         .from('projects')
         .select('*')
