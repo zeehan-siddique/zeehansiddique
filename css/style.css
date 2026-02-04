@@ -252,6 +252,8 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 600px;
+    height: 400px;
 }
 
 .hero-intro {
@@ -262,18 +264,21 @@ img {
 }
 
 .profile-pic {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border: 4px solid var(--accent);
-    box-shadow: 0 0 30px var(--accent-glow);
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
     z-index: 2;
-    transition: transform 0.3s ease;
+    /* Masking for the blend effect */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 95%);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 95%);
+    transition: transform 0.5s ease;
 }
 
 .profile-pic:hover {
-    transform: scale(1.1);
+    transform: scale(1.02);
 }
 
 .headline {
@@ -313,13 +318,12 @@ img {
 
 .blob {
     position: absolute;
-    width: 320px;
-    height: 320px;
-    background: linear-gradient(45deg, #ffffff, #333333);
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    animation: morph 8s ease-in-out infinite;
-    filter: blur(60px);
-    opacity: 0.2;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.5;
     z-index: 1;
 }
 
