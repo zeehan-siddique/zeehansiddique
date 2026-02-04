@@ -1,11 +1,11 @@
 /* CSS Variables & Reset */
 :root {
-    --bg-color: #0d1117;
-    --bg-secondary: #161b22;
-    --text-primary: #e6edf3;
-    --text-secondary: #8b949e;
-    --accent: #58a6ff;
-    --accent-glow: rgba(88, 166, 255, 0.4);
+    --bg-color: #000000;
+    --bg-secondary: #111111;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent: #ffffff;
+    --accent-glow: rgba(255, 255, 255, 0.2);
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
     --nav-height: 80px;
@@ -150,7 +150,7 @@ img {
 
 .header.scrolled {
     background-color: rgba(13, 17, 23, 0.9);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
@@ -206,7 +206,8 @@ img {
     color: var(--text-primary);
     cursor: pointer;
     margin-left: 2rem;
-    display: none; /* Hidden for now, can enable if JS is added */
+    display: none;
+    /* Hidden for now, can enable if JS is added */
 }
 
 /* Mobile Menu */
@@ -285,17 +286,26 @@ img {
 .blob {
     width: 300px;
     height: 300px;
-    background: linear-gradient(45deg, var(--accent), #9b58ff);
+    background: linear-gradient(45deg, #ffffff, #333333);
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     animation: morph 8s ease-in-out infinite;
-    filter: blur(80px); /* Glassmorphism glow effect */
-    opacity: 0.6;
+    filter: blur(80px);
+    /* Glassmorphism glow effect */
+    opacity: 0.3;
 }
 
 @keyframes morph {
-    0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-    100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    0% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+
+    50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    }
+
+    100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
 }
 
 /* About Section */
@@ -322,8 +332,8 @@ img {
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.9rem;
-    color: var(--accent);
-    border: 1px solid rgba(88, 166, 255, 0.2);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Projects Section */
@@ -338,7 +348,7 @@ img {
     border-radius: 10px;
     overflow: hidden;
     transition: var(--transition);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .project-card:hover {
@@ -356,7 +366,7 @@ img {
 .image-placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, #161b22, #0d1117);
+    background: linear-gradient(45deg, #222, #000);
 }
 
 .project-info {
@@ -440,7 +450,7 @@ img {
     .headline {
         font-size: 3rem;
     }
-    
+
     .subtitle {
         font-size: 1.8rem;
     }
@@ -455,7 +465,8 @@ img {
     }
 
     .hero-visual {
-        display: none; /* Hide visual on mobile to save space, or adjust */
+        display: none;
+        /* Hide visual on mobile to save space, or adjust */
     }
 
     .hamburger {
@@ -486,7 +497,7 @@ img {
         justify-content: center;
         align-items: center;
         transition: 0.4s;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
     }
 
     .nav-list.active {
