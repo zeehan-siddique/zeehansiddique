@@ -177,7 +177,7 @@ const loadDynamicContent = async () => {
 
 window.debugSupabase = async () => {
     if (!supabase) {
-        alert("Supabase library not initialized!");
+        alert("Backend is currently DISABLED as requested.");
         return;
     }
     try {
@@ -240,12 +240,12 @@ const loadProjects = async () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Initialize Supabase
-    initSupabase();
+    // initSupabase();
 
     // Fetch dynamic content if Supabase is connected
-    if (supabase) {
-        await Promise.all([loadDynamicContent(), loadProjects()]);
-    }
+    // if (supabase) {
+    //     await Promise.all([loadDynamicContent(), loadProjects()]);
+    // }
 
     // Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
