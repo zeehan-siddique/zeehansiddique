@@ -4,9 +4,9 @@
     --bg-secondary: #111111;
     --text-primary: #ffffff;
     --text-secondary: #a0a0a0;
-    --accent: #FFD700;
-    /* Gold */
-    --accent-glow: rgba(255, 215, 0, 0.2);
+    --accent: #ffffff;
+    /* White */
+    --accent-glow: rgba(255, 255, 255, 0.2);
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
     --nav-height: 80px;

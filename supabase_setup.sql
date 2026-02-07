@@ -71,7 +71,7 @@ insert into portfolio_content (section_name, content) values
 (
   'settings',
   '{
-    "theme": "default"
+    "theme": "monochrome"
   }'::jsonb
 )
 on conflict (section_name) do nothing;
