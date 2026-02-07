@@ -189,6 +189,43 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // Theme Toggle (if implemented)
-    // Add logic here for light/dark mode if requested
+    // Certificate Modal Logic
+    const certModal = document.getElementById('cert-modal');
+    const modalImg = document.getElementById('modal-img');
+    const closeModal = document.querySelector('.close-modal');
+    const modalOverlay = document.querySelector('.modal-overlay');
+
+    if (certModal && modalImg) {
+        document.addEventListener('click', (e) => {
+            const certLink = e.target.closest('.cert-link');
+            if (certLink) {
+                const certSrc = certLink.getAttribute('data-cert');
+                if (certSrc) {
+                    modalImg.src = certSrc;
+                    certModal.style.display = 'flex';
+                    setTimeout(() => {
+                        certModal.classList.add('active');
+                    }, 10);
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        });
+
+        const closeCertModal = () => {
+            if (!certModal.classList.contains('active')) return;
+            certModal.classList.remove('active');
+            setTimeout(() => {
+                certModal.style.display = 'none';
+                modalImg.src = '';
+            }, 300);
+            document.body.style.overflow = 'auto';
+        };
+
+        if (closeModal) closeModal.addEventListener('click', closeCertModal);
+        if (modalOverlay) modalOverlay.addEventListener('click', closeCertModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeCertModal();
+        });
+    }
 });

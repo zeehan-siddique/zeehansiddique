@@ -110,7 +110,8 @@
                     </div>
                     <div class="cv-item">
                         <span class="cv-date">Internship</span>
-                        <h3>Mechanical Intern</h3>
+                        <h3 class="cert-link" data-cert="assets/gph_internship.png" style="display: block;">Mechanical
+                            Intern</h3>
                         <p class="cv-org">GPH Ispat Ltd., Chittagong</p>
                         <ul class="cv-details">
                             <li>Exposure to core mechanical processes in steel manufacturing and material handling
@@ -165,8 +166,11 @@
                     <div class="awards-column">
                         <h3>Honours</h3>
                         <ul class="cv-details">
-                            <li>CSWA Certification for SolidWorks</li>
-                            <li>University Rover Challenge 2025 Award</li>
+                            <li class="cert-link" data-cert="assets/cswa.png">CSWA Certification for SolidWorks</li>
+                            <li class="cert-link" data-cert="assets/urc_2025.jpg">University Rover Challenge 2025 (The
+                                Mars Society)</li>
+                            <li class="cert-link" data-cert="assets/arc_2_0.png">AUST Rover Challenge 2.0 (ARC 2.0)
+                                Award</li>
                             <li>The Duke of Edinburgh Award (Bronze & Silver)</li>
                             <li>HSC Scholarship for Academic Excellence</li>
                         </ul>
@@ -218,6 +222,23 @@
                 style="color: inherit; text-decoration: none; opacity: 0.5; font-size: 0.8rem; margin-left: 10px;">Admin</a>
         </p>
     </footer>
+
+    <!-- Certificate Modal -->
+    <div id="cert-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button class="close-modal" aria-label="Close modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-content">
+                <img id="modal-img" src="" alt="Certificate">
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/main.js"></script>
