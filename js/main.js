@@ -5,18 +5,39 @@ const SUPABASE_URL = 'https://tcputuhmhbtdspxvmuaz.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjcHV0dWhtaGJ0ZHNweHZtdWF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMTM2OTgsImV4cCI6MjA4NTc4OTY5OH0.-vOEmDg0Ny0t54LAFRPrfdhUsHClYlUaObmL9YExZ6U';
 let supabase = null;
 
-if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-}
+const initSupabase = () => {
+    if (typeof window.supabase !== 'undefined') {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log("Supabase Client Initialized");
+    } else {
+        console.error("Supabase library not found!");
+    }
+};
 
 const loadDynamicContent = async () => {
-    const { data: allContent } = await supabase.from('portfolio_content').select('*');
+    if (!supabase) return;
 
-    if (allContent) {
+    console.log("Fetching content from Supabase...");
+    try {
+        const { data: allContent, error } = await supabase.from('portfolio_content').select('*');
+
+        if (error) {
+            console.error("Supabase Select Error:", error.message);
+            return;
+        }
+
+        if (!allContent || allContent.length === 0) {
+            console.warn("No content found in portfolio_content table.");
+            return;
+        }
+
+        console.log(`Loaded ${allContent.length} sections from database.`);
+
         allContent.forEach(item => {
             const content = typeof item.content === 'string' ? JSON.parse(item.content) : item.content;
 
             if (item.section_name === 'hero') {
+                console.log("Updating Hero section...");
                 if (content.name) document.querySelector('.hero .headline').innerText = content.name;
                 if (content.subtitle) document.querySelector('.hero .subtitle').innerText = content.subtitle;
                 if (content.description) document.querySelector('.hero .description').innerText = content.description;
@@ -139,24 +160,27 @@ const loadDynamicContent = async () => {
                 if (li) li.href = content.linkedin || '#';
             }
         });
+    } catch (err) {
+        console.error("Error in loadDynamicContent:", err);
     }
+}
 
-    // 2. Load Projects
-    const { data: projects, error } = await supabase
-        .from('projects')
-        .select('*')
-        .order('created_at', { ascending: false });
+// 2. Load Projects
+const { data: projects, error } = await supabase
+    .from('projects')
+    .select('*')
+    .order('created_at', { ascending: false });
 
-    if (error) {
-        console.error('Error loading projects:', error);
-        return;
-    }
+if (error) {
+    console.error('Error loading projects:', error);
+    return;
+}
 
-    const projectGrid = document.querySelector('.project-grid');
-    if (projectGrid && projects.length > 0) {
-        projectGrid.innerHTML = ''; // Clear placeholders
-        projects.forEach(project => {
-            const projectCard = `
+const projectGrid = document.querySelector('.project-grid');
+if (projectGrid && projects.length > 0) {
+    projectGrid.innerHTML = ''; // Clear placeholders
+    projects.forEach(project => {
+        const projectCard = `
                 <article class="project-card">
                     <div class="project-image">
                         <img src="${project.image_url || 'assets/placeholder.png'}" alt="${project.title}" style="width:100%; height:100%; object-fit:cover;">
@@ -173,15 +197,17 @@ const loadDynamicContent = async () => {
                         </div>
                     </div>
                 </article>`;
-            projectGrid.innerHTML += projectCard;
-        });
-    }
-};
+        projectGrid.innerHTML += projectCard;
+    });
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize Supabase
+    initSupabase();
+
     // Fetch dynamic content if Supabase is connected
     if (supabase) {
-        loadDynamicContent();
+        await loadDynamicContent();
     }
 
     // Mobile Navigation Toggle
