@@ -125,6 +125,21 @@
         </div>
 
         <div class="container">
+            <!-- Site Settings -->
+            <section class="form-group">
+                <h3>Site Settings</h3>
+                <label>Active Theme</label>
+                <select id="site-theme"
+                    style="width: 100%; padding: 0.8rem; background: var(--bg-color); border: 1px solid #333; color: white; border-radius: 6px;">
+                    <option value="default">Default (Dark Gold)</option>
+                    <option value="light">Light (Clean Blue)</option>
+                    <option value="midnight">Midnight (Deep Purple)</option>
+                    <option value="nature">Nature (Forest Green)</option>
+                </select>
+                <button onclick="updateTheme()" class="btn btn-primary" style="margin-top: 1.5rem; width: 100%;">Save
+                    Theme</button>
+            </section>
+
             <!-- Hero Section -->
             <section class="form-group">
                 <h3>Hero Section</h3>
@@ -256,6 +271,9 @@
                         document.getElementById('contact-phone').value = content.phone || '';
                         document.getElementById('contact-email').value = content.email || '';
                         document.getElementById('contact-linkedin').value = content.linkedin || '';
+                    } else if (item.section_name === 'settings') {
+                        document.getElementById('site-theme').value = content.theme || 'default';
+                        document.documentElement.setAttribute('data-theme', content.theme || 'default');
                     }
                 });
             } catch (err) {
@@ -310,6 +328,27 @@
             btn.disabled = false;
             if (error) alert("Error: " + error.message);
             else alert("Contact Info saved!");
+        }
+
+        async function updateTheme() {
+            const theme = document.getElementById('site-theme').value;
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerText = 'Saving...';
+
+            const { error } = await supabaseClient
+                .from('portfolio_content')
+                .upsert({ section_name: 'settings', content: { theme } }, { onConflict: 'section_name' });
+
+            btn.disabled = false;
+            btn.innerText = 'Save Theme';
+
+            if (error) {
+                alert("Error: " + error.message);
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+                alert("Theme updated successfully!");
+            }
         }
 
         async function updateHero() {

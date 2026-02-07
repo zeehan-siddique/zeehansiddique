@@ -164,6 +164,13 @@ const loadDynamicContent = async () => {
                 if (li) li.href = content.linkedin || '#';
                 if (li) li.href = content.linkedin || '#';
             }
+
+            else if (item.section_name === 'settings') {
+                if (content.theme) {
+                    document.documentElement.setAttribute('data-theme', content.theme);
+                    console.log(`Applied theme: ${content.theme}`);
+                }
+            }
         });
         console.log(`Updated sections: ${count}`);
     } catch (err) {

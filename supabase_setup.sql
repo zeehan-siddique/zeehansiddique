@@ -67,5 +67,11 @@ insert into portfolio_content (section_name, content) values
     "email": "zeehansiddique9@gmail.com",
     "linkedin": "https://linkedin.com/in/zeehansiddique"
   }'::jsonb
+),
+(
+  'settings',
+  '{
+    "theme": "default"
+  }'::jsonb
 )
 on conflict (section_name) do nothing;
