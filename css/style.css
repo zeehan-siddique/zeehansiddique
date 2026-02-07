@@ -660,6 +660,10 @@ img {
     display: inline-block;
 }
 
+li.cert-link {
+    display: list-item;
+}
+
 .cert-link:hover {
     color: var(--accent);
     border-bottom-color: var(--accent);
