@@ -173,6 +173,10 @@ const loadDynamicContent = async () => {
                 }
             }
         });
+
+        // Smoothly reveal content once loaded
+        document.querySelector('.hero-content').classList.add('content-loaded');
+
         console.log(`Updated sections: ${count}`);
     } catch (err) {
         console.error("Error in loadDynamicContent:", err);
